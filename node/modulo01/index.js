@@ -2,9 +2,14 @@ const express = require("express");
 
 const server = express();
 
-server.get("/teste", (req, res) => {
-  console.log("teste");
-  res.json({ message: "Hello World" });
+// Query params = ?users=1
+// Routes params = /users/1
+// Resquest body = { name: "Diego", email: "diego@rocketseat.com.br" }
+
+server.get("/users/:id", (req, res) => {
+  const { id } = req.params;
+
+  return res.json({ message: `Buscando o usuário ${id}` });
 });
 
 server.listen(3000);
