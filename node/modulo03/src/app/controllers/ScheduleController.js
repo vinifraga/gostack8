@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import { Op } from 'sequelize';
 
