@@ -48,6 +48,10 @@ class AppointmentController {
 
     const { provider_id, date } = req.body;
 
+    if (provider_id === req.userId) {
+      return res.status(400).json({ error: 'User cannot choose himself' });
+    }
+
     const checkisProvider = await User.findOne({
       where: { id: provider_id, provider: true },
     });
