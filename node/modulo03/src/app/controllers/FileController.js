@@ -10,8 +10,6 @@ class FileController {
     });
     return res.json(file);
   }
-
-  update() {}
 }
 
 export default new FileController();
