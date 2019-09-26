@@ -1,4 +1,6 @@
+const { APP_SECRET } = process.env;
+
 export default {
-  secret: '7f5947135737adc4302524feb01bd7f7',
+  secret: APP_SECRET,
   expiresIn: '7d',
 };
