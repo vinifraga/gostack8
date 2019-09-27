@@ -6,6 +6,8 @@ import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
 import File from '../models/File';
+import Queue from '../../lib/Queue';
+import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   // Listagem dos meetups em que o usuário logado está inscrito;
@@ -62,7 +64,15 @@ class SubscriptionController {
 
     const { meetup_id } = req.body;
 
-    const meetup = await Meetup.findByPk(meetup_id);
+    const meetup = await Meetup.findByPk(meetup_id, {
+      include: [
+        {
+          model: User,
+          as: 'organizer',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!meetup) {
       return res.status(400).json({ error: 'Invalid Meetup id' });
@@ -99,10 +109,24 @@ class SubscriptionController {
         .json({ error: 'Already subscribed to another meetup at this time' });
     }
 
+    const user = await User.findByPk(req.userId, {
+      attributes: ['name', 'email'],
+    });
+
     const subscription = await Subscription.create({
       user_id: req.userId,
       meetup_id,
     });
+
+    const mailData = {
+      organizerName: meetup.organizer.name,
+      organizerEmail: meetup.organizer.email,
+      meetupTitle: meetup.title,
+      userName: user.name,
+      userEmail: user.email,
+    };
+
+    Queue.add(SubscriptionMail.key, { mailData });
 
     return res.json(subscription);
   }
