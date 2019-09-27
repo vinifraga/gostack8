@@ -7,11 +7,15 @@ import authMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
 import MeetupController from './app/controllers/MeetupController';
 import FileController from './app/controllers/FileController';
+import ScheduleController from './app/controllers/ScheduleController';
+import SubscriptionController from './app/controllers/SubscriptionController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
 
+// Sign up
 routes.post('/user', UserController.store);
+// Sign in
 routes.post('/session', SessionController.store);
 
 // Requisição token
@@ -29,5 +33,12 @@ routes.get('/meetup', MeetupController.index);
 routes.post('/meetup', MeetupController.store);
 routes.put('/meetup/:id', MeetupController.update);
 routes.delete('/meetup/:id', MeetupController.delete);
+
+// Schedule
+routes.get('/schedule', ScheduleController.index);
+
+// Subscription
+routes.get('/subscription', SubscriptionController.index);
+routes.post('/subscription', SubscriptionController.store);
 
 export default routes;
