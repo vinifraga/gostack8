@@ -1,10 +1,10 @@
-div#Container {
+div.Header {
   background: #4a90e2;
   display: flex;
   justify-content: center;
 }
 
-div#content {
+div.Header div#Container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,11 +14,11 @@ div#content {
   height: 64px;
 }
 
-img#logo {
+div.Header div#Container img#logo {
   padding-left: 42px;
 }
 
-div#profile {
+div.Header div#Container div#profile {
   font-size: 15px;
   font-weight: bold;
   padding-right: 73px;
