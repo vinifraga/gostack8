@@ -5,10 +5,10 @@ import facebook from "../../assets/facebook-logo.png";
 
 function Header() {
   return (
-    <div className="Header">
-      <div id="Container">
-        <img id="logo" src={facebook} alt="Facebook Logo" />
-        <div id="profile">Meu perfil</div>
+    <div id="Header">
+      <div className="Container">
+        <img src={facebook} alt="Facebook Logo" />
+        <div>Meu perfil</div>
       </div>
     </div>
   );

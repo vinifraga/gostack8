@@ -1,0 +1,25 @@
+div.CommentContainer {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+div.CommentContainer:last-child {
+  margin-bottom: 0;
+}
+
+div.CommentContainer img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+div.CommentContainer div.CommentContent {
+  background-color: #eee;
+  margin-left: 10px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: #3e3e3e;
+  font-size: 13px;
+}

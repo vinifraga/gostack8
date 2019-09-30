@@ -1,23 +1,22 @@
 import React from "react";
 
 import "./styles.css";
+import Comment from "../Comment";
 
 function Post({ data }) {
   return (
     <div key={data.id} className="Post">
-      <div id="Container">
-        <div id="header">
+      <div className="PostContainer">
+        <div className="header">
           <img src={data.author.avatar} alt="Profile picture" />
-          <div id="info">
+          <div>
             <b>{data.author.name}</b>
             <small>{data.date}</small>
           </div>
         </div>
-        <div id="content">{data.content}</div>
+        <div className="content">{data.content}</div>
         {data.comments.map(comment => (
-          <div key={comment.id} styles={"color: #3e3e3"}>
-            {comment.content}
-          </div>
+          <Comment key={comment.id} data={comment} />
         ))}
       </div>
     </div>
