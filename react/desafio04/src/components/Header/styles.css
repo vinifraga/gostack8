@@ -1,0 +1,25 @@
+div#Container {
+  background: #4a90e2;
+  display: flex;
+  justify-content: center;
+}
+
+div#content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #fff;
+  width: 1024px;
+  height: 64px;
+}
+
+img#logo {
+  padding-left: 42px;
+}
+
+div#profile {
+  font-size: 15px;
+  font-weight: bold;
+  padding-right: 73px;
+}
