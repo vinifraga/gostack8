@@ -1,12 +1,12 @@
 div.PostList {
-  background: #333;
+  background: #f2f2f2;
   display: flex;
   justify-content: center;
 }
 
 div.PostList div#Container {
   display: flex;
-  width: 1024px;
-  padding: 0px 162px;
-  color: white;
+  flex: 1;
+  flex-direction: column;
+  max-width: 700px;
 }

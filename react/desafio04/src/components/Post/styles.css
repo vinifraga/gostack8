@@ -1,0 +1,47 @@
+div.Post {
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+div.Post div#Container {
+  display: flex;
+  flex: 1;
+  max-width: 700px;
+  padding: 20px;
+}
+
+div.Post div#Container div#header {
+  display: flex;
+  padding-bottom: 15px;
+}
+
+div.Post div#Container div#header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+div.Post div#Container div#header div#info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+div.Post div#Container div#header div#info b {
+  font-size: 14px;
+  color: #4a4a4a;
+}
+
+div.Post div#Container div#header div#info small {
+  font-size: 11px;
+  color: #9a9a9a;
+}
+
+div.Post div#Container div#content {
+  font-size: 14px;
+  color: #3e3e3e;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
