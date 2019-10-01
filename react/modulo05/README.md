@@ -4,6 +4,8 @@ Código desenvolvido a partir do módulo 5 do conteúdo de React do GoStack 8 da
 
 ## Resumo
 
+App que irá se comunicar com a API REST do Github. Serão feitas requisições de repositórios que serão salvos no LocalStorage. Serão exibidas em tela algumas informações do repositório e issues.
+
 ## Conteúdo
 
 - Criando projeto do zero
