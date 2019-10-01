@@ -19,10 +19,30 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    filters: [
+      {
+        id: 1,
+        name: 'all',
+        text: 'All',
+      },
+      {
+        id: 2,
+        name: 'open',
+        text: 'Open',
+      },
+      {
+        id: 3,
+        name: 'closed',
+        text: 'Closed',
+      },
+    ],
+    activeFilter: 1,
   };
 
   async componentDidMount() {
     const { match } = this.props;
+
+    const { activeFilter, filters } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -30,7 +50,7 @@ export default class Repository extends Component {
       await api.get(`repos/${repoName}`),
       await api.get(`repos/${repoName}/issues`, {
         params: {
-          state: 'open',
+          state: filters[activeFilter - 1].name,
           per_page: 5,
         },
       }),
@@ -43,8 +63,21 @@ export default class Repository extends Component {
     });
   }
 
+  handleFilter = async index => {
+    const { filters, repository } = this.state;
+
+    const issues = await api.get(`repos/${repository.full_name}/issues`, {
+      params: {
+        state: filters[index - 1].name,
+        per_page: 5,
+      },
+    });
+
+    this.setState({ activeFilter: index, issues: issues.data });
+  };
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, filters, activeFilter } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -59,9 +92,21 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <IssueList>
+        <IssueList activeFilter={activeFilter}>
+          <ul>
+            {filters.map(filter => (
+              <li key={filter.id}>
+                <button
+                  type="button"
+                  onClick={() => this.handleFilter(filter.id)}
+                >
+                  {filter.text}
+                </button>
+              </li>
+            ))}
+          </ul>
           {issues.map(issue => (
-            <li key={String(issue.id)}>
+            <li className="issue" key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
               <div>
                 <strong>

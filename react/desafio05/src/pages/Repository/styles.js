@@ -43,12 +43,42 @@ export const Owner = styled.header`
 `;
 
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
+  margin-top: 20px;
   border-top: 1px solid #eee;
   list-style: none;
 
-  li {
+  ul {
+    display: flex;
+    width: fit-content;
+    list-style: none;
+    border: 1px solid #eee;
+    margin: 20px auto;
+
+    li {
+      button {
+        font-size: 16px;
+        font-weight: bold;
+        color: #aaa;
+        padding: 5px 10px;
+        border: none;
+        background: #fff;
+
+        &:hover {
+          color: #7159c1;
+          cursor: pointer;
+        }
+      }
+
+      &:nth-child(${props => props.activeFilter}) {
+        button {
+          color: #7159c1;
+          background: rgba(113, 89, 193, 0.1);
+        }
+      }
+    }
+  }
+
+  li.issue {
     display: flex;
     padding: 15px 10px;
     border: 1px solid #eee;
