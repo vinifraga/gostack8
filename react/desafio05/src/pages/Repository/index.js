@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, Filter, PageButton } from './styles';
 import api from '../../services/api';
 import Container from '../../components/Container';
 
@@ -37,6 +37,7 @@ export default class Repository extends Component {
       },
     ],
     activeFilter: 1,
+    page: 1,
   };
 
   async componentDidMount() {
@@ -52,6 +53,7 @@ export default class Repository extends Component {
         params: {
           state: filters[activeFilter - 1].name,
           per_page: 5,
+          page: 1,
         },
       }),
     ]);
@@ -70,14 +72,38 @@ export default class Repository extends Component {
       params: {
         state: filters[index - 1].name,
         per_page: 5,
+        page: 1,
       },
     });
 
-    this.setState({ activeFilter: index, issues: issues.data });
+    this.setState({ activeFilter: index, issues: issues.data, page: 1 });
+  };
+
+  handlePageChange = async next => {
+    const { filters, activeFilter, repository, page } = this.state;
+
+    const newPage = next ? page + 1 : page - 1;
+
+    const issues = await api.get(`repos/${repository.full_name}/issues`, {
+      params: {
+        state: filters[activeFilter - 1].name,
+        per_page: 5,
+        page: newPage,
+      },
+    });
+
+    this.setState({ issues: issues.data, page: newPage });
   };
 
   render() {
-    const { repository, issues, loading, filters, activeFilter } = this.state;
+    const {
+      repository,
+      issues,
+      loading,
+      filters,
+      activeFilter,
+      page,
+    } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -92,8 +118,8 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <IssueList activeFilter={activeFilter}>
-          <ul>
+        <IssueList>
+          <Filter activeFilter={activeFilter}>
             {filters.map(filter => (
               <li key={filter.id}>
                 <button
@@ -104,7 +130,7 @@ export default class Repository extends Component {
                 </button>
               </li>
             ))}
-          </ul>
+          </Filter>
           {issues.map(issue => (
             <li className="issue" key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
@@ -119,6 +145,26 @@ export default class Repository extends Component {
               </div>
             </li>
           ))}
+          {(page !== 1 || issues.length !== 0) && (
+            <PageButton>
+              {page !== 1 && (
+                <button
+                  type="button"
+                  onClick={() => this.handlePageChange(false)}
+                >
+                  Voltar
+                </button>
+              )}
+              {issues.length !== 0 && (
+                <button
+                  type="button"
+                  onClick={() => this.handlePageChange(true)}
+                >
+                  Próximo
+                </button>
+              )}
+            </PageButton>
+          )}
         </IssueList>
       </Container>
     );

@@ -47,37 +47,6 @@ export const IssueList = styled.ul`
   border-top: 1px solid #eee;
   list-style: none;
 
-  ul {
-    display: flex;
-    width: fit-content;
-    list-style: none;
-    border: 1px solid #eee;
-    margin: 20px auto;
-
-    li {
-      button {
-        font-size: 16px;
-        font-weight: bold;
-        color: #aaa;
-        padding: 5px 10px;
-        border: none;
-        background: #fff;
-
-        &:hover {
-          color: #7159c1;
-          cursor: pointer;
-        }
-      }
-
-      &:nth-child(${props => props.activeFilter}) {
-        button {
-          color: #7159c1;
-          background: rgba(113, 89, 193, 0.1);
-        }
-      }
-    }
-  }
-
   li.issue {
     display: flex;
     padding: 15px 10px;
@@ -128,6 +97,55 @@ export const IssueList = styled.ul`
         font-size: 12px;
         color: #999;
       }
+    }
+  }
+`;
+
+export const Filter = styled.ul`
+  display: flex;
+  width: fit-content;
+  list-style: none;
+  border: 1px solid #eee;
+  margin: 20px auto;
+
+  li {
+    button {
+      font-size: 16px;
+      font-weight: bold;
+      color: #aaa;
+      padding: 5px 10px;
+      border: none;
+      background: #fff;
+
+      &:hover {
+        color: #7159c1;
+      }
+    }
+
+    &:nth-child(${props => props.activeFilter}) {
+      button {
+        color: #7159c1;
+        background: rgba(113, 89, 193, 0.1);
+      }
+    }
+  }
+`;
+
+export const PageButton = styled.div`
+  display: flex;
+  margin: 30px auto 0;
+  width: fit-content;
+
+  button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+    margin: 0 10px;
+    border: none;
+    color: #fff;
+    background: #7159c1;
+    &:hover {
+      background: rgba(113, 89, 193, 0.5);
     }
   }
 `;
