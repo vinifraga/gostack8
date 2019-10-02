@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import './config/ReactotronConfig';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -16,6 +18,7 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
+  console.tron.warn('teste');
   return (
     <>
       <View style={styles.container}>
