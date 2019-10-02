@@ -4,6 +4,8 @@ Código desenvolvido a partir do módulo 6 do conteúdo de React do GoStack 8 da
 
 ## Resumo
 
+Aplicação que faz requisições de usuários à API do Github e mostra os repositórios favoritados por esse.
+
 ## Conteúdo
 
 - Conceitos do React Native
