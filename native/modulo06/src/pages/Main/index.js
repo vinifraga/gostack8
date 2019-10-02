@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Keyboard, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -23,6 +24,12 @@ export default class Main extends Component {
     users: [],
     newUser: '',
     loading: false,
+  };
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
   };
 
   async componentDidMount() {
@@ -60,6 +67,16 @@ export default class Main extends Component {
     Keyboard.dismiss();
   };
 
+  handleNavigate = user => {
+    const { navigation } = this.props;
+
+    navigation.navigate('User', { user });
+  };
+
+  static navigationOptions = {
+    title: 'Usuários',
+  };
+
   render() {
     const { newUser, users, loading } = this.state;
 
@@ -93,7 +110,7 @@ export default class Main extends Component {
               <Name>{item.name}</Name>
               <Bio>{item.bio}</Bio>
 
-              <ProfileButton onPress={() => {}}>
+              <ProfileButton onPress={() => this.handleNavigate(item)}>
                 <ProfileButtonText>Ver perfil</ProfileButtonText>
               </ProfileButton>
             </User>
@@ -103,7 +120,3 @@ export default class Main extends Component {
     );
   }
 }
-
-Main.navigationOptions = {
-  title: 'Usuários',
-};

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "androidDevStart": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090 && react-native start",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
@@ -12,6 +13,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
     "axios": "^0.19.0",
+    "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.1",
     "react-native-gesture-handler": "^1.4.1",
