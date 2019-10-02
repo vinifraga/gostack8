@@ -155,7 +155,7 @@ export default class Repository extends Component {
                   Voltar
                 </button>
               )}
-              {issues.length !== 0 && (
+              {issues.length === 5 && (
                 <button
                   type="button"
                   onClick={() => this.handlePageChange(true)}
