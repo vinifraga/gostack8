@@ -1,6 +1,6 @@
 # Módulo 4 Introdução ao React
 
-Código desenvolvido a partir do módulo 4 do conteúdo de React do GoStack 8 da Rocketseat.
+Código desenvolvido a partir do módulo 4 do conteúdo de ReactJS do GoStack 8 da Rocketseat.
 
 ## Resumo
 

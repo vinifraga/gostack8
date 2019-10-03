@@ -1,6 +1,6 @@
 # Desafio 5 Aplicação com ReactJS
 
-Código desenvolvido a partir do desafio 5 do conteúdo de React do GoStack 8 da Rocketseat.
+Código desenvolvido a partir do desafio 5 do conteúdo de ReactJS do GoStack 8 da Rocketseat.
 
 ## Resumo
 

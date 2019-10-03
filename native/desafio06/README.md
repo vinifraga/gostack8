@@ -1,6 +1,6 @@
 # Desafio 6 Aplicação com React Native
 
-Código desenvolvido a partir do desafio 6 do conteúdo de React do GoStack 8 da Rocketseat.
+Código desenvolvido a partir do desafio 6 do conteúdo de React Native do GoStack 8 da Rocketseat.
 
 ## Resumo
 
