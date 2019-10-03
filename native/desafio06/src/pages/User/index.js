@@ -27,6 +27,7 @@ export default class User extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       getParam: PropTypes.func,
+      navigate: PropTypes.func,
     }).isRequired,
   };
 
@@ -84,6 +85,12 @@ export default class User extends Component {
     });
   };
 
+  handleNavigate = star => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Starred', { star });
+  };
+
   render() {
     const { navigation } = this.props;
     const { stars, loading, end, refreshing } = this.state;
@@ -110,7 +117,7 @@ export default class User extends Component {
             onRefresh={this.handlePullRefresh}
             refreshing={refreshing}
             renderItem={({ item }) => (
-              <Starred>
+              <Starred onTouchEnd={() => this.handleNavigate(item)}>
                 <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
                 <Info>
                   <Title>{item.name}</Title>
