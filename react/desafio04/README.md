@@ -6,8 +6,6 @@ Código desenvolvido a partir do desafio 4 do conteúdo de ReactJS do GoStack 8 
 
 Aplicação simples em React que imita, estaticamente, a interface do Facebook.
 
-## Instruções do Desafio
-
 # Desafio 04. Introdução ao React
 
 Crie uma aplicação do zero utilizando **Webpack, Babel, Webpack Dev Server e ReactJS**.
