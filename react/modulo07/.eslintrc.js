@@ -25,5 +25,6 @@ module.exports = {
     'react/static-property-placement': ['off', 'property assignment'],
     'react/static-property-placement': ['error', 'static public field'],
     'no-console': ['error', { allow: ['tron'] }],
+    'no-param-reassign': 'off',
   },
 };
