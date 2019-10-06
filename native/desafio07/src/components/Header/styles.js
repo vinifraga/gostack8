@@ -41,7 +41,7 @@ export const QuantityBox = styled.View`
   height: 16px;
   border-radius: 8px;
   margin-left: -10px;
-  margin-top: -5px;
+  margin-top: -15px;
   background: #7159c1;
 `;
 
