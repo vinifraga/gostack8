@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   Container,
@@ -12,7 +13,7 @@ import {
 } from './styles';
 import logo from '../../assets/images/logo.png';
 
-export default function Header({ navigation }) {
+function Header({ navigation, cartSize }) {
   return (
     <Container>
       <LogoBox onPress={() => navigation.navigate('Home')}>
@@ -21,7 +22,7 @@ export default function Header({ navigation }) {
       <Cart onPress={() => navigation.navigate('Cart')}>
         <Icon name="basket" size={24} color="#FFF" />
         <QuantityBox>
-          <QuantityText>3</QuantityText>
+          <QuantityText>{cartSize}</QuantityText>
         </QuantityBox>
       </Cart>
     </Container>
@@ -33,3 +34,9 @@ Header.propTypes = {
     navigate: PropTypes.func,
   }).isRequired,
 };
+
+const mapStateToProps = state => ({
+  cartSize: state.cart.length,
+});
+
+export default connect(mapStateToProps)(Header);
