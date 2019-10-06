@@ -1,16 +1,14 @@
 import React from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
-import './config/reactotronConfig';
+import './config/ReactotronConfig';
+import Routes from './routes';
 
 const App = () => {
-  console.tron.log('teste');
   return (
     <>
-      <StatusBar barStyle="ligth-content" />
-      <View>
-        <Text>Desafio 07</Text>
-      </View>
+      <StatusBar backgroundColor="#141419" barStyle="light-content" />
+      <Routes />
     </>
   );
 };
