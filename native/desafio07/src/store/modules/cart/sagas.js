@@ -50,6 +50,6 @@ function* updateAmount({ id, amount }) {
 }
 
 export default all([
-  takeLatest('@cart/ADD_TO_CART_REQUEST', addToCart),
-  takeLatest('@cart/UPDADE_AMOUNT_REQUEST', updateAmount),
+  takeLatest('@cart/ADD_REQUEST', addToCart),
+  takeLatest('@cart/UPDADE_REQUEST', updateAmount),
 ]);

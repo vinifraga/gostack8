@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import * as CartActions from '../../store/modules/cart/actions';
 import {
   Container,
   ItemBox,
@@ -15,7 +18,7 @@ import {
 } from './styles';
 import api from '../../services/api';
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     products: [],
   };
@@ -23,11 +26,16 @@ export default class Home extends Component {
   async componentDidMount() {
     const response = await api.get('/products');
     this.setState({ products: response.data });
+  }
 
-    console.tron.log(response);
+  handleAddProduct(id) {
+    const { addToCartRequest } = this.props;
+
+    addToCartRequest(id);
   }
 
   render() {
+    const { amount } = this.props;
     const { products } = this.state;
 
     return (
@@ -41,10 +49,10 @@ export default class Home extends Component {
               <ItemImage source={{ uri: item.image }} />
               <ItemTitle>{item.title}</ItemTitle>
               <ItemPrice>{item.price}</ItemPrice>
-              <AddProduct>
+              <AddProduct onPress={() => this.handleAddProduct(item.id)}>
                 <QuantityBox>
                   <Icon name="add-shopping-cart" size={19} color="#FFF" />
-                  <QuantityText>1</QuantityText>
+                  <QuantityText>{amount[item.id] || 0}</QuantityText>
                 </QuantityBox>
                 <AddButtonText>ADICIONAR</AddButtonText>
               </AddProduct>
@@ -55,3 +63,19 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+
+    return amount;
+  }, {}),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

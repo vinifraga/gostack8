@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { darken } from 'polished';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -38,7 +39,7 @@ export const ItemPrice = styled.Text`
   font-weight: bold;
 `;
 
-export const AddProduct = styled.View`
+export const AddProduct = styled(RectButton)`
   flex-direction: row;
   margin: 14px 10px 0 10px;
   border-radius: 4px;
