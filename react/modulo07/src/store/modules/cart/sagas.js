@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import { addToCartSuccess, updateAmountSuccess } from './actions';
 import { formatPrice } from '../../../util/format';
+import history from '../../../services/history';
 
 function* addToCart({ id }) {
   const productExists = yield select(state =>
@@ -33,11 +34,12 @@ function* addToCart({ id }) {
     };
 
     yield put(addToCartSuccess(data));
+    history.push('/cart');
   }
 }
 
 function* updateAmount({ id, amount }) {
-  if (amount < 0) return;
+  if (amount <= 0) return;
 
   const stock = yield call(api.get, `stock/${id}`);
   const stockAmount = stock.data.amount;

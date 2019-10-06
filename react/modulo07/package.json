@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
+    "history": "^4.10.1",
     "immer": "^4.0.0",
     "polished": "^3.4.1",
     "react": "^16.10.1",
