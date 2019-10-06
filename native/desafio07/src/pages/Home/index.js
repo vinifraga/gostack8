@@ -17,6 +17,7 @@ import {
   AddButtonText,
 } from './styles';
 import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 
 class Home extends Component {
   state = {
@@ -25,7 +26,11 @@ class Home extends Component {
 
   async componentDidMount() {
     const response = await api.get('/products');
-    this.setState({ products: response.data });
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormated: formatPrice(product.price),
+    }));
+    this.setState({ products: data });
   }
 
   handleAddProduct(id) {
@@ -48,7 +53,7 @@ class Home extends Component {
             <ItemBox key={String(item.id)}>
               <ItemImage source={{ uri: item.image }} />
               <ItemTitle>{item.title}</ItemTitle>
-              <ItemPrice>{item.price}</ItemPrice>
+              <ItemPrice>{item.priceFormated}</ItemPrice>
               <AddProduct onPress={() => this.handleAddProduct(item.id)}>
                 <QuantityBox>
                   <Icon name="add-shopping-cart" size={19} color="#FFF" />

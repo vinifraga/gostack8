@@ -4,17 +4,21 @@ import { Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('screen');
 
-export const Container = styled.View`
+export const Body = styled.View`
   flex: 1;
   padding: 20px;
   background: #191920;
 `;
 
-export const ItemContainer = styled.View`
-  background: #fff;
+export const Container = styled.View`
   padding: 22px 15px 10px;
+  background: #fff;
   border-radius: 4px;
 `;
+
+export const Scroll = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})``;
 
 export const ItemBox = styled.View`
   background: #fff;

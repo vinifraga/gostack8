@@ -1,9 +1,14 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import * as CartActions from '../../store/modules/cart/actions';
+import { formatPrice } from '../../util/format';
 import {
+  Body,
   Container,
-  ItemContainer,
+  Scroll,
   ItemBox,
   UpperInfo,
   ItemImage,
@@ -21,57 +26,83 @@ import {
   FinishButtonText,
 } from './styles';
 
-export default function Cart() {
-  const cart = [
-    {
-      id: 1,
-      title: 'Tênis de Caminhada Leve Confortável',
-      price: 179.9,
-      amount: 3,
-      image:
-        'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-    },
-    {
-      id: 2,
-      title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-      price: 139.9,
-      amount: 2,
-      image:
-        'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-    },
-  ];
+function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
+  function handleRemove(id) {
+    removeFromCart(id);
+  }
+
+  function handleUpdateAmount(id, amount) {
+    updateAmountRequest(id, amount);
+  }
 
   return (
-    <Container>
-      <ItemContainer>
-        {cart.map(item => (
-          <ItemBox key={item.id}>
-            <UpperInfo>
-              <ItemImage source={{ uri: item.image }} />
-              <TextBox>
-                <ItemText>{item.title}</ItemText>
-                <ItemPrice>{item.price}</ItemPrice>
-              </TextBox>
-              <Icon name="delete-forever" size={28} color="#7159c1" />
-            </UpperInfo>
-            <LowerInfo>
-              <AmountBox>
-                <Icon name="remove-circle-outline" size={23} color="#7159c1" />
-                <AmountInput value={String(item.amount)} editable={false} />
-                <Icon name="add-circle-outline" size={23} color="#7159c1" />
-              </AmountBox>
-              <SubTotal>{item.price * item.amount}</SubTotal>
-            </LowerInfo>
-          </ItemBox>
-        ))}
-        <TotalBox>
-          <TotalText>TOTAL</TotalText>
-          <TotalPrice>R$391390,21</TotalPrice>
-          <FinishButton>
-            <FinishButtonText>FINALIZAR PEDIDO</FinishButtonText>
-          </FinishButton>
-        </TotalBox>
-      </ItemContainer>
-    </Container>
+    <Body>
+      <Container>
+        <Scroll>
+          {cart.map(item => (
+            <ItemBox key={item.id}>
+              <UpperInfo>
+                <ItemImage source={{ uri: item.image }} />
+                <TextBox>
+                  <ItemText>{item.title}</ItemText>
+                  <ItemPrice>{item.priceFormated}</ItemPrice>
+                </TextBox>
+                <Icon
+                  name="delete-forever"
+                  onPress={() => handleRemove(item.id)}
+                  size={28}
+                  color="#7159c1"
+                />
+              </UpperInfo>
+              <LowerInfo>
+                <AmountBox>
+                  <Icon
+                    name="remove-circle-outline"
+                    onPress={() => handleUpdateAmount(item.id, item.amount - 1)}
+                    size={23}
+                    color="#7159c1"
+                  />
+                  <AmountInput value={String(item.amount)} editable={false} />
+                  <Icon
+                    name="add-circle-outline"
+                    onPress={() => handleUpdateAmount(item.id, item.amount + 1)}
+                    size={23}
+                    color="#7159c1"
+                  />
+                </AmountBox>
+                <SubTotal>{item.subTotal}</SubTotal>
+              </LowerInfo>
+            </ItemBox>
+          ))}
+          <TotalBox>
+            <TotalText>TOTAL</TotalText>
+            <TotalPrice>{total}</TotalPrice>
+            <FinishButton>
+              <FinishButtonText>FINALIZAR PEDIDO</FinishButtonText>
+            </FinishButton>
+          </TotalBox>
+        </Scroll>
+      </Container>
+    </Body>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart.map(product => ({
+    ...product,
+    subTotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cart);
