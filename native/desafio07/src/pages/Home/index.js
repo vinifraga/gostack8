@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import * as CartActions from '../../store/modules/cart/actions';
 import {
@@ -22,6 +23,11 @@ import { formatPrice } from '../../util/format';
 class Home extends Component {
   state = {
     products: [],
+  };
+
+  static propTypes = {
+    amount: PropTypes.objectOf(PropTypes.number).isRequired,
+    addToCartRequest: PropTypes.func.isRequired,
   };
 
   async componentDidMount() {

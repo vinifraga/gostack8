@@ -33,6 +33,7 @@ Header.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }).isRequired,
+  cartSize: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -19,12 +19,13 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
-    'react/jsx-filename-extension': ['warn', {extensions: ['.jsx', '.js']}],
+    'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.js'] }],
     'import/prefer-default-export': 'off',
     'react/state-in-constructor': 'off',
     'react/static-property-placement': ['off', 'property assignment'],
     'react/static-property-placement': ['error', 'static public field'],
-    'no-console': ['error', {allow: ['tron']}],
+    'no-console': ['error', { allow: ['tron'] }],
     'no-param-reassign': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };
