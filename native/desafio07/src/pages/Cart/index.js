@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Toast from 'react-native-root-toast';
 
 import * as CartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
@@ -33,6 +34,19 @@ function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
 
   function handleUpdateAmount(id, amount) {
     updateAmountRequest(id, amount);
+  }
+
+  function handleFinish() {
+    Toast.show('Pedido finalizado', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      backgroundColor: 'green',
+      textColor: '#FFF',
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
   }
 
   return (
@@ -77,7 +91,7 @@ function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
           <TotalBox>
             <TotalText>TOTAL</TotalText>
             <TotalPrice>{total}</TotalPrice>
-            <FinishButton>
+            <FinishButton onPress={handleFinish}>
               <FinishButtonText>FINALIZAR PEDIDO</FinishButtonText>
             </FinishButton>
           </TotalBox>

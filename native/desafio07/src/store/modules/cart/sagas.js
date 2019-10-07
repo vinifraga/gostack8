@@ -1,4 +1,5 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
+import Toast from 'react-native-root-toast';
 
 import api from '../../../services/api';
 import navigation from '../../../services/navigation';
@@ -17,7 +18,16 @@ function* addToCart({ id }) {
   const amount = currentAmount + 1;
 
   if (amount > stockAmount) {
-    console.tron.log('error');
+    Toast.show('Quantidade fora de estoque', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      backgroundColor: 'red',
+      textColor: '#FFF',
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
     return;
   }
 
@@ -39,13 +49,34 @@ function* addToCart({ id }) {
 }
 
 function* updateAmount({ id, amount }) {
-  if (amount <= 0) return;
+  if (amount <= 0) {
+    Toast.show('Quantidade não pode ser menor do que 1', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      backgroundColor: 'red',
+      textColor: '#fff',
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+    return;
+  }
 
   const stock = yield call(api.get, `/stock/${id}`);
   const stockAmount = stock.data.amount;
 
   if (amount > stockAmount) {
-    console.tron.log('error');
+    Toast.show('Quantidade fora de estoque', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      backgroundColor: 'red',
+      textColor: '#fff',
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
     return;
   }
 
