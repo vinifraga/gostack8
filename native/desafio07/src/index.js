@@ -8,12 +8,17 @@ import { Provider } from 'react-redux';
 import './config/ReactotronConfig';
 import Routes from './routes';
 import store from './store';
+import navigation from './services/navigation';
 
 const App = () => {
   return (
     <Provider store={store}>
       <StatusBar backgroundColor="#141419" barStyle="light-content" />
-      <Routes />
+      <Routes
+        ref={navigatorRef => {
+          navigation.setNavigator(navigatorRef);
+        }}
+      />
     </Provider>
   );
 };
