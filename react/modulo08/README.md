@@ -1,3 +1,21 @@
+# Módulo 8 Utilizando React Hooks
+
+Código desenvolvido a partir do módulo 8 do conteúdo de React do GoStack 8 da Rocketseat.
+
+## Resumo
+
+Conceitos básicos sobre React Hooks, suas principais funções, conversão de classes para funções e integração com Redux.
+
+## Conteúdo
+
+- Configurando estrutura
+- Hook useState
+- Hook useEffect
+- Hook useMemo
+- Hook useCallback
+- Convertendo classe
+- Hooks com Redux
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
