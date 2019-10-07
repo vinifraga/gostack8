@@ -35,11 +35,11 @@ export const Cart = styled(BorderlessButton).attrs({
 `;
 
 export const QuantityBox = styled.View`
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
   margin-left: -10px;
-  margin-top: -15px;
+  margin-top: -20px;
   background: #7159c1;
 `;
 

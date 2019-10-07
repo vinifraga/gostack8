@@ -14,6 +14,8 @@ const Routes = createAppContainer(
       Cart,
     },
     {
+      headerMode: 'float',
+      headerTransitionPreset: 'fade-in-place',
       defaultNavigationOptions: navigation => ({
         header: <Header {...navigation} />,
         cardStyle: {

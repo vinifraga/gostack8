@@ -2,8 +2,8 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Toast from 'react-native-root-toast';
 import PropTypes from 'prop-types';
+import { Alert } from 'react-native';
 
 import * as CartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
@@ -27,6 +27,7 @@ import {
   FinishButton,
   FinishButtonText,
   EmptyCart,
+  EmptyCartText,
 } from './styles';
 
 function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
@@ -39,16 +40,15 @@ function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
   }
 
   function handleFinish() {
-    Toast.show('Pedido finalizado', {
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.BOTTOM,
-      backgroundColor: 'green',
-      textColor: '#FFF',
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
+    Alert.alert('', 'Deseja finalizar o pedido?', [
+      { text: 'NÃO', style: 'cancel' },
+      {
+        text: 'SIM',
+        onPress: () => {
+          Alert.alert('', 'Pedido finalizado', [{ text: 'OK' }]);
+        },
+      },
+    ]);
   }
 
   return (
@@ -104,7 +104,14 @@ function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
             </TotalBox>
           </Scroll>
         ) : (
-          <EmptyCart>Carrinho vazio</EmptyCart>
+          <EmptyCart>
+            <Icon
+              name="remove-shopping-cart"
+              size={60}
+              color="rgba(113,89,193, 0.5)"
+            />
+            <EmptyCartText>Seu carrinho está vazio</EmptyCartText>
+          </EmptyCart>
         )}
       </Container>
     </Body>
