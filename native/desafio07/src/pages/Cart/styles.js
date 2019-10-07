@@ -102,3 +102,10 @@ export const FinishButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
 `;
+
+export const EmptyCart = styled.Text`
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 12px;
+`;

@@ -26,6 +26,7 @@ import {
   TotalPrice,
   FinishButton,
   FinishButtonText,
+  EmptyCart,
 } from './styles';
 
 function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
@@ -53,50 +54,58 @@ function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
   return (
     <Body>
       <Container>
-        <Scroll>
-          {cart.map(item => (
-            <ItemBox key={item.id}>
-              <UpperInfo>
-                <ItemImage source={{ uri: item.image }} />
-                <TextBox>
-                  <ItemText>{item.title}</ItemText>
-                  <ItemPrice>{item.priceFormated}</ItemPrice>
-                </TextBox>
-                <Icon
-                  name="delete-forever"
-                  onPress={() => handleRemove(item.id)}
-                  size={28}
-                  color="#7159c1"
-                />
-              </UpperInfo>
-              <LowerInfo>
-                <AmountBox>
+        {cart.length > 0 ? (
+          <Scroll>
+            {cart.map(item => (
+              <ItemBox key={item.id}>
+                <UpperInfo>
+                  <ItemImage source={{ uri: item.image }} />
+                  <TextBox>
+                    <ItemText>{item.title}</ItemText>
+                    <ItemPrice>{item.priceFormated}</ItemPrice>
+                  </TextBox>
                   <Icon
-                    name="remove-circle-outline"
-                    onPress={() => handleUpdateAmount(item.id, item.amount - 1)}
-                    size={23}
+                    name="delete-forever"
+                    onPress={() => handleRemove(item.id)}
+                    size={28}
                     color="#7159c1"
                   />
-                  <AmountInput value={String(item.amount)} editable={false} />
-                  <Icon
-                    name="add-circle-outline"
-                    onPress={() => handleUpdateAmount(item.id, item.amount + 1)}
-                    size={23}
-                    color="#7159c1"
-                  />
-                </AmountBox>
-                <SubTotal>{item.subTotal}</SubTotal>
-              </LowerInfo>
-            </ItemBox>
-          ))}
-          <TotalBox>
-            <TotalText>TOTAL</TotalText>
-            <TotalPrice>{total}</TotalPrice>
-            <FinishButton onPress={handleFinish}>
-              <FinishButtonText>FINALIZAR PEDIDO</FinishButtonText>
-            </FinishButton>
-          </TotalBox>
-        </Scroll>
+                </UpperInfo>
+                <LowerInfo>
+                  <AmountBox>
+                    <Icon
+                      name="remove-circle-outline"
+                      onPress={() =>
+                        handleUpdateAmount(item.id, item.amount - 1)
+                      }
+                      size={23}
+                      color="#7159c1"
+                    />
+                    <AmountInput value={String(item.amount)} editable={false} />
+                    <Icon
+                      name="add-circle-outline"
+                      onPress={() =>
+                        handleUpdateAmount(item.id, item.amount + 1)
+                      }
+                      size={23}
+                      color="#7159c1"
+                    />
+                  </AmountBox>
+                  <SubTotal>{item.subTotal}</SubTotal>
+                </LowerInfo>
+              </ItemBox>
+            ))}
+            <TotalBox>
+              <TotalText>TOTAL</TotalText>
+              <TotalPrice>{total}</TotalPrice>
+              <FinishButton onPress={handleFinish}>
+                <FinishButtonText>FINALIZAR PEDIDO</FinishButtonText>
+              </FinishButton>
+            </TotalBox>
+          </Scroll>
+        ) : (
+          <EmptyCart>Carrinho vazio</EmptyCart>
+        )}
       </Container>
     </Body>
   );
