@@ -3,6 +3,7 @@ import { Router } from 'react-router-dom';
 
 import history from './services/history';
 import Routes from './routes';
+import './config/ReactotronConfig';
 
 function App() {
   return (
