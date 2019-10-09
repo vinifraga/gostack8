@@ -2,7 +2,6 @@ import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import { Op } from 'sequelize';
 
 import Meetup from '../models/Meetup';
-import User from '../models/User';
 import File from '../models/File';
 
 class ScheduleController {
@@ -20,13 +19,8 @@ class ScheduleController {
       order: [['date']],
       limit: 10,
       offset: (page - 1) * 10,
-      attributes: ['id', 'title', 'description', 'date'],
+      attributes: ['id', 'title', 'description', 'date', 'location'],
       include: [
-        {
-          model: User,
-          as: 'organizer',
-          attributes: ['name', 'email'],
-        },
         {
           model: File,
           as: 'banner',
