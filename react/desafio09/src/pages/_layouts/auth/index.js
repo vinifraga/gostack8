@@ -1,7 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import { Container } from './styles';
+import { Container, Content } from './styles';
 
-export default function auth() {
-  return <div />;
+export default function AuthLayout({ children }) {
+  return (
+    <Container>
+      <Content>{children}</Content>
+    </Container>
+  );
 }
+
+AuthLayout.propTypes = {
+  children: PropTypes.element.isRequired,
+};

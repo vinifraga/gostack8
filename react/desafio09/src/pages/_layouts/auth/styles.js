@@ -1,3 +1,74 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  height: 100%;
+  background: linear-gradient(180deg, #22202c, #402845);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Content = styled.div`
+  width: 100%;
+  max-width: 315px;
+  text-align: center;
+
+  img {
+    margin-bottom: 50px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      border: 0;
+      border-radius: 4px;
+      height: 50px;
+      font-size: 18px;
+      color: #979797;
+      background: rgba(0, 0, 0, 0.2);
+
+      &::placeholder {
+        color: #979797;
+        font-size: 18px;
+      }
+    }
+
+    span {
+      color: #e5556e;
+      padding-bottom: 10px;
+    }
+
+    button {
+      margin-top: 5px;
+      margin-bottom: 20px;
+      background: #e5556e;
+      border: 0;
+      border-radius: 4px;
+      height: 50px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      transition: background 0.2s;
+
+      &:hover {
+        background: ${darken(0.08, '#e5556e')};
+      }
+    }
+  }
+
+  a {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.2s;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+`;
