@@ -1,5 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { darken } from 'polished';
+
+export const LoadingKeyframe = keyframes`
+  0% {
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+`;
 
 export const Container = styled.div`
   height: 100%;
@@ -29,7 +38,7 @@ export const Content = styled.div`
       border-radius: 4px;
       height: 50px;
       font-size: 18px;
-      color: #979797;
+      color: #fff;
       background: rgba(0, 0, 0, 0.2);
 
       &::placeholder {
@@ -44,6 +53,9 @@ export const Content = styled.div`
     }
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 5px;
       margin-bottom: 20px;
       background: #e5556e;
@@ -55,8 +67,21 @@ export const Content = styled.div`
       font-weight: bold;
       transition: background 0.2s;
 
-      &:hover {
+      &:hover:not([disabled]) {
         background: ${darken(0.08, '#e5556e')};
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      svg {
+        animation: ${props =>
+          props.loading &&
+          css`
+            ${LoadingKeyframe} 2s linear 0s infinite
+          `};
       }
     }
   }

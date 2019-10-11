@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Container } from './styles';
+import Header from '~/components/Header';
 
 export default function DefaultLayout({ children }) {
-  return <Container>{children}</Container>;
+  return (
+    <Container>
+      <Header />
+      {children}
+    </Container>
+  );
 }
 
 DefaultLayout.propTypes = {

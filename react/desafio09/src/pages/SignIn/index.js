@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
+import { FaSpinner } from 'react-icons/fa';
 
 import * as AuthActions from '~/store/modules/auth/actions';
 import logo from '~/assets/logo.svg';
@@ -32,7 +33,9 @@ export default function SignIn() {
           type="password"
           placeholder="Sua senha secreta"
         />
-        <button type="submit">{loading ? 'Carregando...' : 'Entrar'}</button>
+        <button disabled={loading} type="submit">
+          {loading ? <FaSpinner color="#FFF" /> : 'Entrar'}
+        </button>
       </Form>
       <Link to="/register">Criar conta grátis</Link>
     </>
