@@ -2,7 +2,8 @@ import { all } from 'redux-saga/effects';
 
 import auth from './auth/sagas';
 import user from './user/sagas';
+import meetup from './meetup/sagas';
 
 export default function* rootSaga() {
-  yield all([auth, user]);
+  yield all([auth, user, meetup]);
 }
