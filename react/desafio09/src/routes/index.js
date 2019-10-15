@@ -19,7 +19,8 @@ export default function Routes() {
 
       <Route path="/dashboard" isPrivate component={Dashboard} />
       <Route path="/details" isPrivate component={Detalhes} />
-      <Route path="/new-edit" isPrivate component={Novo_Editar} />
+      <Route path="/new" isPrivate component={Novo_Editar} />
+      <Route path="/edit/:id" isPrivate component={Novo_Editar} />
       <Route path="/profile" isPrivate component={Profile} />
     </Switch>
   );
