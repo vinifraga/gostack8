@@ -11,23 +11,18 @@ export function indexSuccess(meetups) {
   };
 }
 
-export function storeRequest(title, description, location, banner_id, date) {
+export function storeRequest(data) {
   return {
     type: '@meetup/STORE_REQUEST',
     payload: {
-      title,
-      description,
-      location,
-      banner_id,
-      date,
+      data,
     },
   };
 }
 
-export function storeSuccess(meetup) {
+export function storeSuccess() {
   return {
     type: '@meetup/STORE_SUCCESS',
-    payload: { meetup },
   };
 }
 
@@ -37,16 +32,15 @@ export function failure() {
   };
 }
 
-export function updateRequest(data) {
+export function updateRequest(id, data) {
   return {
     type: '@meetup/UPDATE_REQUEST',
-    payload: { data },
+    payload: { id, data },
   };
 }
 
-export function updateSuccess(meetup) {
+export function updateSuccess() {
   return {
     type: '@meetup/UPDATE_SUCCESS',
-    payload: { meetup },
   };
 }

@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useField } from '@rocketseat/unform';
 import { MdCameraAlt } from 'react-icons/md';
-import api from '~/services/api';
 
+import api from '~/services/api';
 import { Container } from './styles';
 
 export default function BannerInput() {
-  const { defaultValue, registerField } = useField('banner');
+  const { fieldName, registerField, defaultValue } = useField('banner');
 
-  const [preview, setPreview] = useState(defaultValue);
-  const [file, setFile] = useState(defaultValue);
+  const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const [file, setFile] = useState(defaultValue && defaultValue.id);
 
   const ref = useRef();
 
@@ -22,7 +22,7 @@ export default function BannerInput() {
         pickerRef.clear();
       },
     });
-  }, [ref.current]); //eslint-disable-line
+  }, [ref.current, fieldName]); //eslint-disable-line
 
   async function handleChange(e) {
     const data = new FormData();
@@ -32,7 +32,7 @@ export default function BannerInput() {
     const response = await api.post('file', data);
 
     const { id, url } = response.data;
-    console.tron.log(response.data, data);
+
     setFile(id);
     setPreview(url);
   }

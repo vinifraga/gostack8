@@ -19,19 +19,38 @@ function* indexMeetups() {
 
 function* storeMeetup({ payload }) {
   try {
-    const response = yield call(api.post, '/meetup', { payload });
+    const { data } = payload;
+
+    const response = yield call(api.post, '/meetup', data);
 
     yield put(MeetupActions.storeSuccess(response.data));
 
     toast.success('Meetup criado com sucesso');
+    history.push('/dashboard');
   } catch (error) {
     toast.error('Falha na criação do meetup, verifique seus dados');
     yield put(MeetupActions.failure());
+  }
+}
+
+function* updateMeetup({ payload }) {
+  try {
+    const { id, data } = payload;
+
+    const response = yield call(api.put, `/meetup/${id}`, data);
+
+    yield put(MeetupActions.storeSuccess(response.data));
+
+    toast.success('Meetup atualizado com sucesso');
     history.push('/dashboard');
+  } catch (error) {
+    toast.error('Falha na atualização do meetup, verifique seus dados');
+    yield put(MeetupActions.failure());
   }
 }
 
 export default all([
   takeLatest('@meetup/INDEX_REQUEST', indexMeetups),
   takeLatest('@meetup/STORE_REQUEST', storeMeetup),
+  takeLatest('@meetup/UPDATE_REQUEST', updateMeetup),
 ]);

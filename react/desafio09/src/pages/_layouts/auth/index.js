@@ -8,7 +8,7 @@ export default function AuthLayout({ children }) {
   const loading = useSelector(state => state.auth.loading);
   return (
     <Container>
-      <Content loading={String(loading)}>{children}</Content>
+      <Content loading={loading ? 1 : 0}>{children}</Content>
     </Container>
   );
 }

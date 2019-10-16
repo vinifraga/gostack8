@@ -64,7 +64,7 @@ export const Container = styled.div`
       button {
         display: flex;
         align-items: center;
-        width: 162px;
+        width: 180px;
         border: 0;
         border-radius: 4px;
         padding: 12px 25px 12px 20px;

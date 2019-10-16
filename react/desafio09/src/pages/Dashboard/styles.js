@@ -1,11 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { darken } from 'polished';
+
+export const LoadingKeyframe = keyframes`
+  0% {
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+`;
 
 export const Container = styled.div`
   width: 100%;
   max-width: 940px;
 
-  div {
+  div.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -49,7 +58,6 @@ export const Container = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
       margin-bottom: 10px;
       padding: 20px 20px 20px 30px;
       border: 0;
@@ -77,6 +85,33 @@ export const Container = styled.div`
           margin-right: 30px;
         }
       }
+    }
+  }
+
+  div.info {
+    border-radius: 4px;
+    margin-top: 50px;
+    background: rgba(0, 0, 0, 0.2);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      padding-top: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    svg {
+      margin-right: 10px;
+      animation: ${props =>
+        props.loading &&
+        css`
+          ${LoadingKeyframe} 2s linear 0s infinite
+        `};
     }
   }
 `;

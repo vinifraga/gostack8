@@ -11,7 +11,8 @@ export const LoadingKeyframe = keyframes`
 `;
 
 export const Container = styled.div`
-  height: 100%;
+  min-height: 100%;
+  padding: 20px 0;
   background: linear-gradient(180deg, #22202c, #402845);
   display: flex;
   align-items: center;

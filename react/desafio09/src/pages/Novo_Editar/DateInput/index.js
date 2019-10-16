@@ -3,19 +3,19 @@ import DatePicker from 'react-datepicker';
 import { endOfDay, startOfDay, startOfHour, format, isBefore } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { useField } from '@rocketseat/unform';
-import { addHours } from 'date-fns/esm';
+import { addHours, parseISO } from 'date-fns/esm';
 import { Container } from './styles';
 
 export default function DateInput({ name }) {
+  const ref = useRef(null);
   const { fieldName, registerField, defaultValue } = useField(name);
-
-  const [date, setDate] = useState(defaultValue);
+  const [date, setDate] = useState(defaultValue ? parseISO(defaultValue) : '');
   const [today, setToday] = useState(
     defaultValue
-      ? format(defaultValue, 'yyyy-M-dd') === format(new Date(), 'yyyy-M-dd')
+      ? format(parseISO(defaultValue), 'yyyy-M-dd') ===
+          format(new Date(), 'yyyy-M-dd')
       : true
   );
-  const ref = useRef();
 
   useEffect(() => {
     registerField({
@@ -26,7 +26,6 @@ export default function DateInput({ name }) {
         pickerRef.clear();
       },
     });
-    console.tron.log('entrei');
   }, [ref.current, fieldName]); //eslint-disable-line
   return (
     <Container>
@@ -39,7 +38,7 @@ export default function DateInput({ name }) {
             setDate(startOfHour(newDate));
           }
         }}
-        dateFormat="d 'de' MMMM 'de' yyyy 'às' H:mm 'horas'"
+        dateFormat="d 'de' MMMM 'de' yyyy, 'às' H'h'"
         showTimeSelect
         timeCaption="Horário"
         timeIntervals={60}
