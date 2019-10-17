@@ -1,3 +1,7 @@
+import { unlink } from 'fs';
+import { promisify } from 'util';
+import { resolve } from 'path';
+
 import File from '../models/File';
 
 class FileController {
@@ -18,7 +22,18 @@ class FileController {
       return res.status(400).json({ error: 'File not found' });
     }
 
-    await file.destroy();
+    const filePath = resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'uploads',
+      file.path
+    );
+    const unlinkAsync = promisify(unlink);
+
+    await Promise.all([file.destroy(), unlinkAsync(filePath)]);
 
     return res.json();
   }
