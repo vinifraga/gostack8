@@ -22,9 +22,12 @@ export default function Detalhes() {
   );
   const loading = useSelector(state => state.meetup.loading);
   const dispatch = useDispatch();
+  const { id: bannerId } = meetup.banner;
+  const { url } = meetup.banner;
 
   function handleDelete() {
-    dispatch(MeetupActions.deleteRequest(id));
+    console.tron.log(id, bannerId);
+    dispatch(MeetupActions.deleteRequest(id, bannerId));
   }
 
   return (
@@ -57,7 +60,7 @@ export default function Detalhes() {
       </InfoHeader>
 
       <Info>
-        <img src={meetup.banner.url} alt="Meetup_Banner" />
+        <img src={url} alt="Meetup_Banner" />
         <Description>{meetup.description}</Description>
         <div>
           <time>

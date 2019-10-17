@@ -45,10 +45,10 @@ export function updateSuccess() {
   };
 }
 
-export function deleteRequest(id) {
+export function deleteRequest(id, bannerId) {
   return {
     type: '@meetup/DELETE_REQUEST',
-    payload: { id },
+    payload: { id, bannerId },
   };
 }
 

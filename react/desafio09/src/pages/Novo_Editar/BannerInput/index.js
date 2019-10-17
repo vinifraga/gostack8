@@ -30,6 +30,7 @@ export default function BannerInput() {
     data.append('file', e.target.files[0]);
 
     const response = await api.post('file', data);
+    api.delete(`file/${file}`);
 
     const { id, url } = response.data;
 

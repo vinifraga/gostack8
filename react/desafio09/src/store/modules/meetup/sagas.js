@@ -51,9 +51,12 @@ function* updateMeetup({ payload }) {
 
 function* deleteMeetup({ payload }) {
   try {
-    const { id } = payload;
+    const { id, bannerId } = payload;
 
-    yield call(api.delete, `/meetup/${id}`);
+    yield all([
+      call(api.delete, `/meetup/${id}`),
+      call(api.delete, `/file/${bannerId}`),
+    ]);
 
     toast.info('Meetup cancelado');
     history.push('/dashboard');
