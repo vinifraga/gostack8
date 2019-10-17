@@ -13,12 +13,15 @@ class MeetupController {
         {
           model: File,
           as: 'banner',
-          attributes: ['name', 'url', 'path'],
+          attributes: ['id', 'url', 'path'],
         },
       ],
+      attributes: ['id', 'title', 'description', 'location', 'date'],
     });
 
-    return res.json(meetups);
+    const validMeetups = meetups.filter(meetup => meetup.past === false);
+
+    return res.json(validMeetups);
   }
 
   async store(req, res) {
@@ -34,7 +37,7 @@ class MeetupController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    // Meetup de 1 hora marcado no inicio da mesma.
+    // Meetup de 1 hora de duração, marcado no inicio da mesma.
     const { date } = req.body;
     const startDate = startOfHour(parseISO(date));
 
@@ -77,9 +80,9 @@ class MeetupController {
         .json({ error: 'User is not the meetup organizer' });
     }
 
-    const { date } = meetup;
+    const { past } = meetup;
 
-    if (isBefore(date, new Date())) {
+    if (past) {
       return res.status(401).json({ error: 'Cannot update past events' });
     }
 
@@ -103,9 +106,9 @@ class MeetupController {
         .json({ error: 'User is not the meetup organizer' });
     }
 
-    const { date } = meetup;
+    const { past } = meetup;
 
-    if (isBefore(date, new Date())) {
+    if (past) {
       return res.status(401).json({ error: 'Cannot delete past events' });
     }
 

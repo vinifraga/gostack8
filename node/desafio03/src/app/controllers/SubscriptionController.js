@@ -1,6 +1,5 @@
 import { Op } from 'sequelize';
 import * as Yup from 'yup';
-import { isBefore } from 'date-fns';
 
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
@@ -78,7 +77,9 @@ class SubscriptionController {
       return res.status(400).json({ error: 'Invalid Meetup id' });
     }
 
-    if (isBefore(meetup.date, new Date())) {
+    const { past } = meetup;
+
+    if (past) {
       return res.status(401).json({ error: 'Cannot subscribe to past meetup' });
     }
 
