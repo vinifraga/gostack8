@@ -49,8 +49,25 @@ function* updateMeetup({ payload }) {
   }
 }
 
+function* deleteMeetup({ payload }) {
+  try {
+    const { id } = payload;
+
+    yield call(api.delete, `/meetup/${id}`);
+
+    toast.info('Meetup cancelado');
+    history.push('/dashboard');
+
+    yield put(MeetupActions.deleteSuccess());
+  } catch (error) {
+    toast.error('Falha no cancelamento');
+    yield put(MeetupActions.failure());
+  }
+}
+
 export default all([
   takeLatest('@meetup/INDEX_REQUEST', indexMeetups),
   takeLatest('@meetup/STORE_REQUEST', storeMeetup),
   takeLatest('@meetup/UPDATE_REQUEST', updateMeetup),
+  takeLatest('@meetup/DELETE_REQUEST', deleteMeetup),
 ]);

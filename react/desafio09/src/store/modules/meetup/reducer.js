@@ -20,6 +20,10 @@ export default function meetup(state = INITIAL_STATE, action) {
         draft.loading = true;
         break;
       }
+      case '@meetup/DELETE_REQUEST': {
+        draft.loading = true;
+        break;
+      }
       case '@meetup/INDEX_SUCCESS': {
         draft.meetups = action.payload.meetups;
         draft.loading = false;
@@ -30,6 +34,10 @@ export default function meetup(state = INITIAL_STATE, action) {
         break;
       }
       case '@meetup/UPDATE_SUCCESS': {
+        draft.loading = false;
+        break;
+      }
+      case '@meetup/DELETE_SUCCESS': {
         draft.loading = false;
         break;
       }

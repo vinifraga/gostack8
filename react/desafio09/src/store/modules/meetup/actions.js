@@ -44,3 +44,16 @@ export function updateSuccess() {
     type: '@meetup/UPDATE_SUCCESS',
   };
 }
+
+export function deleteRequest(id) {
+  return {
+    type: '@meetup/DELETE_REQUEST',
+    payload: { id },
+  };
+}
+
+export function deleteSuccess() {
+  return {
+    type: '@meetup/DELETE_SUCCESS',
+  };
+}

@@ -9,7 +9,7 @@ import pt from 'date-fns/locale/pt';
 import * as MeetupActions from '~/store/modules/meetup/actions';
 import history from '~/services/history';
 
-import { Container } from './styles';
+import { Container, ListHeader, List } from './styles';
 
 export default function Dashboard() {
   const meetups = useSelector(state => state.meetup.meetups);
@@ -22,23 +22,23 @@ export default function Dashboard() {
 
   return (
     <Container loading={loading ? 1 : 0}>
-      <div className="header">
+      <ListHeader>
         <h1>Meus meetups</h1>
 
         <button type="button" onClick={() => history.push('/new')}>
           <MdAddCircleOutline size={20} color="#FFF" />
           Novo meetup
         </button>
-      </div>
+      </ListHeader>
       {loading ? (
         <div className="info">
           <FaSpinner size={40} color="rgba(255, 255, 255, 0.6)" />
           <span>Carregando...</span>
         </div>
       ) : meetups.length > 0 ? (
-        <ul>
+        <List>
           {meetups.map(meetup => (
-            <Link key={meetup.id} to={`edit/${meetup.id}`}>
+            <Link key={meetup.id} to={`details/${meetup.id}`}>
               <li>
                 <strong>{meetup.title}</strong>
                 <aside>
@@ -52,7 +52,7 @@ export default function Dashboard() {
               </li>
             </Link>
           ))}
-        </ul>
+        </List>
       ) : (
         <div className="info">
           <FaRegFrown size={40} color="rgba(255, 255, 255, 0.6)" />
