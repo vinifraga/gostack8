@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useField } from '@rocketseat/unform';
+import { useSelector } from 'react-redux';
+import { useParams, useLocation } from 'react-router-dom';
 import { MdCameraAlt } from 'react-icons/md';
 
 import api from '~/services/api';
@@ -10,6 +12,12 @@ export default function BannerInput() {
 
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
   const [file, setFile] = useState(defaultValue && defaultValue.id);
+
+  const [, option] = useLocation().pathname.split('/');
+  const meetupId = useParams().id;
+  const meetup = useSelector(state =>
+    state.meetup.meetups.find(p => p.id === Number(meetupId))
+  );
 
   const ref = useRef();
 
@@ -30,7 +38,16 @@ export default function BannerInput() {
     data.append('file', e.target.files[0]);
 
     const response = await api.post('file', data);
-    api.delete(`file/${file}`);
+
+    if (file) {
+      if (option === 'edit') {
+        if (meetup.banner.id !== file) {
+          api.delete(`file/${file}`);
+        }
+      } else {
+        api.delete(`file/${file}`);
+      }
+    }
 
     const { id, url } = response.data;
 

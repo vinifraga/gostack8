@@ -26,7 +26,6 @@ export default function Detalhes() {
   const { url } = meetup.banner;
 
   function handleDelete() {
-    console.tron.log(id, bannerId);
     dispatch(MeetupActions.deleteRequest(id, bannerId));
   }
 

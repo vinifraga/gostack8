@@ -16,11 +16,24 @@ import * as MeetupActions from '~/store/modules/meetup/actions';
 export default function Novo_Editar() {
   const params = useParams();
   const loading = useSelector(state => state.meetup.loading);
-  const meetups = useSelector(state => state.meetup.meetups);
-  const [, option] = useLocation().pathname.split('/');
-  const INITIAL_DATA =
-    meetups.find(searchMeetup => searchMeetup.id === Number(params.id)) || {};
+  const INITIAL_DATA = useSelector(
+    state =>
+      state.meetup.meetups.find(
+        searchMeetup => searchMeetup.id === Number(params.id)
+      ) || {}
+  );
   const dispatch = useDispatch();
+  const [, option] = useLocation().pathname.split('/');
+
+  useEffect(() => {
+    if (option === 'new') return;
+    console.tron.log(INITIAL_DATA);
+    if (!params || !params.id || !INITIAL_DATA) {
+      toast.error('Falha na edição');
+      history.push('/dashboard');
+    }
+  }, [INITIAL_DATA, option, params]);
+
   const schema = Yup.object().shape({
     title: Yup.string().required('O título é obrigatório'),
     location: Yup.string().required('A localização é obrigatória'),
@@ -29,19 +42,12 @@ export default function Novo_Editar() {
     banner_id: Yup.number().required('O banner é obrigatório'),
   });
 
-  useEffect(() => {
-    if (option === 'new') return;
-    if (!params || !params.id || meetups.length === 0) {
-      toast.error('Falha na edição');
-      history.push('/dashboard');
-    }
-  }, [meetups.length, option, params]);
-
   function handleSubmit(data) {
     if (option === 'new') {
       dispatch(MeetupActions.storeRequest(data));
     } else {
-      dispatch(MeetupActions.updateRequest(params.id, data));
+      const bannerId = INITIAL_DATA.banner.id;
+      dispatch(MeetupActions.updateRequest(params.id, bannerId, data));
     }
   }
   return (

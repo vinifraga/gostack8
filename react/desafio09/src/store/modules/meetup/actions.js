@@ -32,10 +32,10 @@ export function failure() {
   };
 }
 
-export function updateRequest(id, data) {
+export function updateRequest(id, bannerId, data) {
   return {
     type: '@meetup/UPDATE_REQUEST',
-    payload: { id, data },
+    payload: { id, bannerId, data },
   };
 }
 

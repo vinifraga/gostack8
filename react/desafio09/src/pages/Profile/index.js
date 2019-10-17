@@ -45,7 +45,7 @@ export default function Profile() {
     dispatch(UserActions.updateRequest(data));
   }
   return (
-    <Container loading={loading}>
+    <Container loading={loading ? 1 : 0}>
       <Form initialData={profile} schema={schema} onSubmit={handleSubmit}>
         <Input name="name" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu melhor e-mail" />

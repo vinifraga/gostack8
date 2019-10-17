@@ -35,9 +35,12 @@ function* storeMeetup({ payload }) {
 
 function* updateMeetup({ payload }) {
   try {
-    const { id, data } = payload;
+    const { id, bannerId, data } = payload;
 
-    const response = yield call(api.put, `/meetup/${id}`, data);
+    const response = yield all([
+      call(api.put, `/meetup/${id}`, data),
+      call(api.delete, `/file/${bannerId}`),
+    ]);
 
     yield put(MeetupActions.storeSuccess(response.data));
 
