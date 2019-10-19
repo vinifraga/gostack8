@@ -1,4 +1,5 @@
 import {
+  parseISO,
   startOfDay,
   endOfDay,
   setHours,
@@ -19,7 +20,7 @@ class AvailableController {
       return res.status(400).json({ error: 'Invalid date' });
     }
 
-    const searchDate = Number(date);
+    const searchDate = parseISO(date);
 
     const appointments = await Appointment.findAll({
       where: {

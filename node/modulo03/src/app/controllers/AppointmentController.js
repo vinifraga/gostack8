@@ -85,7 +85,7 @@ class AppointmentController {
     const appointment = await Appointment.create({
       user_id: req.userId,
       provider_id,
-      date,
+      date: hourStart,
     });
 
     // Notify appointment provider
@@ -108,20 +108,7 @@ class AppointmentController {
   async delete(req, res) {
     const { id } = req.params;
 
-    const appointment = await Appointment.findByPk(id, {
-      include: [
-        {
-          model: User,
-          as: 'provider',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name'],
-        },
-      ],
-    });
+    const appointment = await Appointment.findByPk(id);
 
     if (appointment.user_id !== req.userId) {
       return res.status(401).json({
