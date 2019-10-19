@@ -15,18 +15,13 @@ export default function Appointment({ data, onCancel }) {
     });
   }, [data.date]);
 
-  const androidAvatar = data.provider.avatar.url.replace(
-    'localhost',
-    '192.168.0.15'
-  );
-
   return (
     <Container past={data.past}>
       <Left>
         <Avatar
           source={{
             uri: data.provider.avatar
-              ? androidAvatar
+              ? data.provider.avatar.url.replace('localhost', '192.168.0.15')
               : `https://api.adorable.io/avatar/50/${data.provider.name}.png`,
           }}
         />
