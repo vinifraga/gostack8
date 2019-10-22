@@ -37,6 +37,8 @@ function* signUp({ payload }) {
 }
 
 function setToken({ payload }) {
+  if (!payload) return;
+
   const { token } = payload.auth;
 
   if (token) {

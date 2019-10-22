@@ -38,5 +38,4 @@ export const MeetupInfoText = styled.Text`
 
 export const SubscribeButton = styled(Button)`
   margin: 15px 20px 20px;
-  background: #f94d6a;
 `;

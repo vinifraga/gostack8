@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
 import { signOut } from '~/store/modules/auth/actions';
 import { updateRequest } from '~/store/modules/user/actions';
@@ -17,7 +18,7 @@ import Background from '~/components/Background';
 import Header from '~/components/Header';
 
 export default function Profile() {
-  const loading = useSelector(state => state.auth.loading);
+  const loading = useSelector(state => state.user.loading);
   const profile = useSelector(state => state.user.profile);
   const dispatch = useDispatch();
 
@@ -117,9 +118,21 @@ export default function Profile() {
   );
 }
 
+const tabBarIcon = ({ tintColor }) => (
+  <Icon name="person" size={20} color={tintColor} />
+);
+
+tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
+
+Profile.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};
+
 Profile.navigationOptions = {
   tabBarLabel: 'Meu Perfil',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="person" size={20} color={tintColor} />
-  ),
+  tabBarIcon,
 };

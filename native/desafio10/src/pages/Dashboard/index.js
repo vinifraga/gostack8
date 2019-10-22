@@ -1,37 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {
-  addDays,
-  subDays,
-  isBefore,
-  startOfDay,
-  format,
-  parseISO,
-} from 'date-fns';
+import { addDays, subDays, isBefore, startOfDay, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { ActivityIndicator, View, Alert } from 'react-native';
+import PropTypes from 'prop-types';
 
 import api from '~/services/api';
+import { storeRequest } from '~/store/modules/subscription/actions';
 
-import {
-  Container,
-  DateBox,
-  DateText,
-  MeetupsList,
-  LoadingContainer,
-  LoadingText,
-} from './styles';
+import { Container, DateBox, DateText, MeetupsList } from './styles';
 import Background from '~/components/Background';
 import Header from '~/components/Header';
 import Meetup from '~/components/Meetup';
+import Info from '~/components/Info';
 
-export default function Dashboard({ navigation }) {
+export default function Dashboard() {
+  const dispatch = useDispatch();
+  const buttonLoading = useSelector(state => state.subscription.buttonLoading);
+
   const [meetups, setMeetups] = useState([]);
   const [date, setDate] = useState(new Date());
   const [page, setPage] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
   const [endOfList, setEndOfList] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadItem, setLoadItem] = useState(null);
 
   useEffect(() => {
     async function loadMeetups() {
@@ -109,14 +102,8 @@ export default function Dashboard({ navigation }) {
   }
 
   async function handleSubscription(id) {
-    try {
-      await api.post('subscription', { meetup_id: id });
-
-      Alert.alert('Sucesso', 'Inscrição realizada com sucesso');
-      navigation.navigate('Subscriptions');
-    } catch (error) {
-      Alert.alert('Erro', 'Falha na inscrição');
-    }
+    setLoadItem(id);
+    dispatch(storeRequest(id));
   }
 
   return (
@@ -135,45 +122,41 @@ export default function Dashboard({ navigation }) {
         </DateBox>
 
         {loading ? (
-          <View style={{ justifyContent: 'center', flex: 1 }}>
-            <LoadingContainer>
-              <ActivityIndicator size={24} color="rgba(255, 255, 255, 0.6)" />
-              <LoadingText>Buscando meetups...</LoadingText>
-            </LoadingContainer>
-          </View>
-        ) : (
+          <Info loading contentText="Buscando meetups..." />
+        ) : meetups.length > 0 ? (
           <MeetupsList
             data={meetups}
             keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => {
-              item.formatedDate = format(
-                parseISO(item.date),
-                "d 'de' MMMM 'de' yyyy, 'às' H'h'",
-                {
-                  locale: pt,
-                }
-              );
-              return (
-                <Meetup
-                  onSubscription={() => handleSubscription(item.id)}
-                  data={item}
-                />
-              );
-            }}
+            renderItem={({ item }) => (
+              <Meetup
+                load={loadItem === item.id && buttonLoading}
+                onPressFunction={() => handleSubscription(item.id)}
+                data={item}
+                subscribe
+              />
+            )}
             onRefresh={handleRefresh}
             refreshing={refreshing}
             onEndReachedThreshold={0.2}
             onEndReached={nextPage}
           />
+        ) : (
+          <Info contentText="Nenhum meetup encontrado" />
         )}
       </Container>
     </Background>
   );
 }
 
+const tabBarIcon = ({ tintColor }) => (
+  <Icon name="format-list-bulleted" size={20} color={tintColor} />
+);
+
+tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
+
 Dashboard.navigationOptions = {
   tabBarLabel: 'Meetups',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="format-list-bulleted" size={20} color={tintColor} />
-  ),
+  tabBarIcon,
 };

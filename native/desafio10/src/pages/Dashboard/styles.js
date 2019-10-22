@@ -24,19 +24,3 @@ export const MeetupsList = styled.FlatList.attrs({
   margin-top: 30px;
   align-self: stretch;
 `;
-
-export const LoadingContainer = styled.View`
-  background: rgba(0, 0, 0, 0.2);
-  align-self: stretch;
-  padding: 50px;
-  border-radius: 4px;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const LoadingText = styled.Text`
-  margin-top: 10px;
-  font-size: 24px;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: bold;
-`;
