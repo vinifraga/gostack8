@@ -1,19 +1,24 @@
-import { startOfDay, endOfDay, parseISO } from 'date-fns';
+import { startOfDay, endOfDay, parseISO, isEqual } from 'date-fns';
 import { Op } from 'sequelize';
 
 import Meetup from '../models/Meetup';
 import File from '../models/File';
+import User from '../models/User';
 
 class ScheduleController {
   // Listagem de meetups disponíveis, filtrados por data e com pag. de 10;
   async index(req, res) {
     const { date, page } = req.query;
     const parsedDate = parseISO(date);
+    const today = isEqual(startOfDay(parsedDate), startOfDay(new Date()));
 
     const meetups = await Meetup.findAll({
       where: {
         date: {
-          [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
+          [Op.between]: [
+            today ? parsedDate : startOfDay(parsedDate),
+            endOfDay(parsedDate),
+          ],
         },
       },
       order: [['date']],
@@ -25,6 +30,11 @@ class ScheduleController {
           model: File,
           as: 'banner',
           attributes: ['name', 'url', 'path'],
+        },
+        {
+          model: User,
+          as: 'organizer',
+          attributes: ['name'],
         },
       ],
     });
