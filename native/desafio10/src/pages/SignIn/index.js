@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import logo from '~/assets/Logo/Logo.png';
+import { signInRequest } from '~/store/modules/auth/actions';
 
+import logo from '~/assets/Logo/Logo.png';
 import {
   Container,
   Form,
@@ -19,6 +21,13 @@ export default function SignIn({ navigation }) {
   const [password, setPassword] = useState('');
 
   const passwordRef = useRef();
+
+  const loading = useSelector(state => state.auth.loading);
+  const dispatch = useDispatch();
+
+  function handleSubmit() {
+    dispatch(signInRequest(email, password));
+  }
 
   return (
     <Background>
@@ -42,12 +51,15 @@ export default function SignIn({ navigation }) {
           <FormInput
             secureTextEntry
             placeholder="Sua senha secreta"
-            returnKeyType="send"
             ref={passwordRef}
             value={password}
             onChangeText={setPassword}
+            returnKeyType="send"
+            onSubmitEditing={handleSubmit}
           />
-          <SubmitButton>Entrar</SubmitButton>
+          <SubmitButton onPress={handleSubmit} loading={loading}>
+            Entrar
+          </SubmitButton>
         </Form>
 
         <SignLink onPress={() => navigation.navigate('SignUp')}>

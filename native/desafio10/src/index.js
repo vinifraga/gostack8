@@ -1,20 +1,19 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import '~/config/ReactotronConfig';
+
+import { store, persistor } from '~/store';
 
 import App from './App';
 
 export default function index() {
-  const isSigned = false;
-
   return (
-    <>
-      <StatusBar
-        backgroundColor={isSigned ? '#18161f' : '#22202C'}
-        barStyle="light-content"
-      />
-      <App />
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
   );
 }

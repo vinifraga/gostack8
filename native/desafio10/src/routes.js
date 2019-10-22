@@ -23,8 +23,8 @@ export default (isSigned = false) => {
           },
           {
             tabBarOptions: {
+              keyboardHidesTabBar: true,
               style: {
-                keyboardHidesTabBar: true,
                 backgroundColor: '#2b1a2f',
                 paddingTop: 12,
                 paddingBottom: 12,
