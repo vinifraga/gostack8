@@ -21,7 +21,7 @@ class SubscriptionController {
         {
           model: Meetup,
           as: 'meetup',
-          attributes: ['title', 'date'],
+          attributes: ['title', 'date', 'location'],
           where: {
             date: {
               [Op.gt]: new Date(),
@@ -39,11 +39,6 @@ class SubscriptionController {
               attributes: ['name', 'path', 'url'],
             },
           ],
-        },
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name', 'email'],
         },
       ],
     });
@@ -63,21 +58,27 @@ class SubscriptionController {
 
     const { meetup_id } = req.body;
 
-    const meetup = await Meetup.findByPk(meetup_id, {
+    const checkMeetup = await Meetup.findByPk(meetup_id, {
+      attributes: ['title', 'date', 'location'],
       include: [
         {
           model: User,
           as: 'organizer',
           attributes: ['name', 'email'],
         },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['name', 'path', 'url'],
+        },
       ],
     });
 
-    if (!meetup) {
+    if (!checkMeetup) {
       return res.status(400).json({ error: 'Invalid Meetup id' });
     }
 
-    const { past } = meetup;
+    const { past } = checkMeetup;
 
     if (past) {
       return res.status(401).json({ error: 'Cannot subscribe to past meetup' });
@@ -99,7 +100,7 @@ class SubscriptionController {
         {
           model: Meetup,
           as: 'meetup',
-          where: { date: meetup.date },
+          where: { date: checkMeetup.date },
         },
       ],
     });
@@ -119,17 +120,46 @@ class SubscriptionController {
       meetup_id,
     });
 
+    const { id } = subscription;
+    const meetup = checkMeetup.get();
+
+    const data = {
+      id,
+      meetup_id,
+      meetup,
+    };
+
     const mailData = {
-      organizerName: meetup.organizer.name,
-      organizerEmail: meetup.organizer.email,
-      meetupTitle: meetup.title,
+      organizerName: checkMeetup.organizer.name,
+      organizerEmail: checkMeetup.organizer.email,
+      meetupTitle: checkMeetup.title,
       userName: user.name,
       userEmail: user.email,
     };
 
     Queue.add(SubscriptionMail.key, { mailData });
 
-    return res.json(subscription);
+    return res.json(data);
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const subscription = await Subscription.findByPk(id);
+
+    if (!subscription) {
+      return res.status(400).json({ error: 'Subscription not found' });
+    }
+
+    if (subscription.user_id !== req.userId) {
+      return res
+        .status(401)
+        .json({ error: "User is not the subscription's owner" });
+    }
+
+    await subscription.destroy();
+
+    return res.json();
   }
 }
 

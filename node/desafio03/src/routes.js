@@ -40,5 +40,6 @@ routes.get('/schedule', ScheduleController.index);
 // Subscription
 routes.get('/subscription', SubscriptionController.index);
 routes.post('/subscription', SubscriptionController.store);
+routes.delete('/subscription/:id', SubscriptionController.delete);
 
 export default routes;
