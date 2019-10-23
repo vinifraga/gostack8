@@ -22,6 +22,7 @@ export default (isSigned = false) => {
             Profile,
           },
           {
+            initialRouteName: 'Subscriptions',
             tabBarOptions: {
               keyboardHidesTabBar: true,
               style: {

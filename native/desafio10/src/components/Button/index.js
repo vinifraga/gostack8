@@ -4,9 +4,15 @@ import PropTypes from 'prop-types';
 
 import { Container, Text } from './styles';
 
-export default function Button({ children, loading, small, ...rest }) {
+export default function Button({
+  children,
+  loading,
+  small,
+  disabled,
+  ...rest
+}) {
   return (
-    <Container small={small} {...rest}>
+    <Container enabled={!disabled} small={small} {...rest}>
       {loading ? (
         <ActivityIndicator size={20} color="#FFF" />
       ) : (
@@ -20,9 +26,11 @@ Button.propTypes = {
   children: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   small: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
+  disabled: false,
   loading: false,
   small: false,
 };

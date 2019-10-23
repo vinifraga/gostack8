@@ -13,7 +13,13 @@ import {
   SubscribeButton,
 } from './styles';
 
-export default function Meetup({ data, onPressFunction, load, subscribe }) {
+export default function Meetup({
+  data,
+  onPressFunction,
+  load,
+  subscribe,
+  disabled,
+}) {
   return (
     <MeetupCard>
       <MeetupBanner
@@ -38,12 +44,13 @@ export default function Meetup({ data, onPressFunction, load, subscribe }) {
       </MeetupInfo>
       {subscribe ? (
         <SubscribeButton
+          disabled={disabled}
           loading={load}
           style={{ backgroundColor: '#f94d6a' }}
           small
           onPress={onPressFunction}
         >
-          Realizar inscrição
+          {disabled ? 'Já inscrito' : 'Realizar inscrição'}
         </SubscribeButton>
       ) : (
         <SubscribeButton loading={load} small onPress={onPressFunction}>
@@ -69,9 +76,11 @@ Meetup.propTypes = {
   onPressFunction: PropTypes.func.isRequired,
   load: PropTypes.bool,
   subscribe: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Meetup.defaultProps = {
   load: false,
   subscribe: false,
+  disabled: false,
 };

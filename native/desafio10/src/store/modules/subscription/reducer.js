@@ -1,4 +1,5 @@
 import { produce } from 'immer';
+import { isAfter, parseISO } from 'date-fns';
 
 const INITIAL_STATE = {
   subscriptions: [],
@@ -42,7 +43,16 @@ export default function subscription(state = INITIAL_STATE, action) {
       case '@subscription/STORE_SUCCESS': {
         const { sub } = action.payload;
 
-        draft.subscriptions.push(sub);
+        const index = draft.subscriptions.findIndex(item =>
+          isAfter(parseISO(item.meetup.date), parseISO(sub.meetup.date))
+        );
+
+        if (index === -1) {
+          draft.subscriptions.push(sub);
+        } else {
+          draft.subscriptions.splice(index, 0, sub);
+        }
+
         draft.buttonLoading = false;
 
         break;

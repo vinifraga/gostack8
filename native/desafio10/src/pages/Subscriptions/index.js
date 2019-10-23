@@ -57,7 +57,11 @@ export default function Subscriptions() {
             refreshing={refreshing}
           />
         ) : (
-          <Info contentText="Nenhuma inscrição encontrada" />
+          <Info
+            onReload={() => dispatch(indexRequest())}
+            button
+            contentText="Nenhuma inscrição encontrada"
+          />
         )}
       </Container>
     </Background>

@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 import { Container, Content, Text } from './styles';
 
-export default function Info({ loading, contentText }) {
+export default function Info({ loading, contentText, onReload, button }) {
   return (
-    <Container style={{ justifyContent: 'center', flex: 1 }}>
-      <Content>
+    <Container>
+      <Content enabled={button} onPress={onReload}>
         {loading ? (
           <ActivityIndicator size={24} color="rgba(255, 255, 255, 0.6)" />
         ) : (
@@ -27,8 +27,12 @@ export default function Info({ loading, contentText }) {
 Info.propTypes = {
   loading: PropTypes.bool,
   contentText: PropTypes.string.isRequired,
+  button: PropTypes.bool,
+  onReload: PropTypes.func,
 };
 
 Info.defaultProps = {
   loading: false,
+  button: false,
+  onReload: null,
 };

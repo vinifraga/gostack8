@@ -17,6 +17,7 @@ import Info from '~/components/Info';
 export default function Dashboard() {
   const dispatch = useDispatch();
   const buttonLoading = useSelector(state => state.subscription.buttonLoading);
+  const subscriptions = useSelector(state => state.subscription.subscriptions);
 
   const [meetups, setMeetups] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -106,6 +107,20 @@ export default function Dashboard() {
     dispatch(storeRequest(id));
   }
 
+  async function handleReload() {
+    setLoading(true);
+
+    const response = await api.get('/schedule', {
+      params: {
+        date,
+        page: 1,
+      },
+    });
+
+    setMeetups(response.data);
+    setLoading(false);
+  }
+
   return (
     <Background>
       <Header />
@@ -127,21 +142,32 @@ export default function Dashboard() {
           <MeetupsList
             data={meetups}
             keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => (
-              <Meetup
-                load={loadItem === item.id && buttonLoading}
-                onPressFunction={() => handleSubscription(item.id)}
-                data={item}
-                subscribe
-              />
-            )}
+            renderItem={({ item }) => {
+              return (
+                <Meetup
+                  disabled={
+                    subscriptions.filter(
+                      subscription => subscription.meetup_id === item.id
+                    ).length > 0
+                  }
+                  load={loadItem === item.id && buttonLoading}
+                  onPressFunction={() => handleSubscription(item.id)}
+                  data={item}
+                  subscribe
+                />
+              );
+            }}
             onRefresh={handleRefresh}
             refreshing={refreshing}
             onEndReachedThreshold={0.2}
             onEndReached={nextPage}
           />
         ) : (
-          <Info contentText="Nenhum meetup encontrado" />
+          <Info
+            button
+            onReload={handleReload}
+            contentText="Nenhum meetup encontrado"
+          />
         )}
       </Container>
     </Background>
