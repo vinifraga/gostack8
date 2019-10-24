@@ -17,6 +17,8 @@ import multerConfig from './config/multer';
 const routes = new Router();
 const upload = multer(multerConfig);
 
+routes.get('/', (req, res) => res.send('ok'));
+
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
@@ -32,4 +34,5 @@ routes.delete('/appointments/:id', AppointmentController.delete);
 routes.get('/schedules', ScheduleController.index);
 routes.get('/notifications', NotificationController.index);
 routes.put('/notifications/:id', NotificationController.update);
+
 export default routes;
