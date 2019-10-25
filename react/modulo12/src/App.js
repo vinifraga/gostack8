@@ -1,7 +1,9 @@
 import React from 'react';
 
+import TechList from './components/TechList';
+
 function App() {
-  return <div className="App">Modulo 12</div>;
+  return <TechList />;
 }
 
 export default App;

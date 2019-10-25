@@ -23,7 +23,8 @@
       "^~/(.*)": "<rootDir>/src/$1"
     },
     "setupFilesAfterEnv": [
-      "@testing-library/jest-dom/extend-expect"
+      "@testing-library/jest-dom/extend-expect",
+      "jest-localstorage-mock"
     ]
   },
   "browserslist": {
@@ -53,6 +54,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest-localstorage-mock": "^2.4.0",
     "prettier": "^1.18.2",
     "react-app-rewired": "^2.1.4"
   }
