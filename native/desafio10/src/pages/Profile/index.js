@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { Alert } from 'react-native';
 
 import { signOut } from '~/store/modules/auth/actions';
 import { updateRequest } from '~/store/modules/user/actions';
@@ -33,10 +35,48 @@ export default function Profile() {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  function handleSubmit() {
-    dispatch(
-      updateRequest({ name, email, password, oldPassword, confirmPassword })
-    );
+  const schema = Yup.object().shape({
+    name: Yup.string(),
+    email: Yup.string().email('E-mail inválido'),
+    oldPassword: Yup.string(),
+    password: Yup.string().when('oldPassword', (oldPasswordField, field) =>
+      oldPasswordField
+        ? field
+            .min(6, 'Mínimo de 6 caracteres')
+            .required('Nova senha é obrigatória')
+            .notOneOf(
+              [Yup.ref('oldPassword')],
+              'A nova senha não pode ser igual à antiga'
+            )
+        : field
+    ),
+    confirmPassword: Yup.string().when('password', (passwordField, field) =>
+      passwordField
+        ? field
+            .required('Confirmação de senha é obrigatória')
+            .oneOf(
+              [Yup.ref('password')],
+              'Nova senha e confirmação devem ser iguais'
+            )
+        : field
+    ),
+  });
+
+  async function handleSubmit() {
+    try {
+      await schema.validate({
+        name,
+        email,
+        password,
+        oldPassword,
+        confirmPassword,
+      });
+      dispatch(
+        updateRequest({ name, email, password, oldPassword, confirmPassword })
+      );
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
   }
 
   function handleLogout() {
