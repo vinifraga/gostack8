@@ -12,6 +12,20 @@ const Helpers = use('Helpers')
  */
 class FileController {
   /**
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async show ({ params, response }) {
+    const { id } = params
+
+    const file = await File.findOrFail(id)
+
+    return response.download(Helpers.tmpPath(`uploads/${file.file}`))
+  }
+
+  /**
    * Create/save a new file.
    * POST files
    *
