@@ -6,7 +6,7 @@ class UserController {
   async store ({ request }) {
     const data = request.only(['username', 'password', 'email'])
 
-    const user = await User.create(data)
+    const user = await User.creeate(data)
 
     return user
   }
